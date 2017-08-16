@@ -2,6 +2,7 @@
   "name": "fnxnet/guzzle-bundle",
   "type": "symfony-bundle",
   "description": "Allows you to easily create clients, commands and map result to desired array, object or class",
+  "license": "MIT",
   "keywords": [
     "serialization",
     "deserialization",
