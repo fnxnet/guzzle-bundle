@@ -17,11 +17,11 @@ class Configuration
     /**
      * @var string
      */
-    private $uri = '';
+    private $uri;
     /**
      * @var string
      */
-    private $method = '';
+    private $method;
     /**
      * @var string
      */
@@ -65,10 +65,10 @@ class Configuration
         $this->params   = $params;
         $this->defaults = $defaults;
         if ($resultClass) {
-            $this->resultClass = $this->setResultClass($resultClass);
+            $this->setResultClass($resultClass);
         }
         if ($resultType) {
-            $this->resultType = $this->setResultType($resultType);
+            $this->setResultType($resultType);
         }
     }
 
@@ -99,9 +99,9 @@ class Configuration
     /**
      * @return string
      */
-    public function getResultClass ()
+    public function getResultClass () : string
     {
-        return $this->resultClass;
+        return $this->resultClass ? $this->resultClass : '';
     }
 
     /**
@@ -126,7 +126,7 @@ class Configuration
     }
 
     /**
-     * @param $resultType
+     * @param string $resultType
      *
      * @return $this
      */
