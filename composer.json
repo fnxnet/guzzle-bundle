@@ -1,0 +1,35 @@
+{
+  "name": "fnx/guzzle-bundle",
+  "type": "symfony-bundle",
+  "description": "Allows you to easily create clients, commands and map result to desired array, object or class",
+  "keywords": [
+    "serialization",
+    "deserialization",
+    "json",
+    "guzzle",
+    "xml"
+  ],
+  "authors": [
+    {
+      "name": "Mirosław Karczmarczyk",
+      "email": "fnxnet@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=7",
+    "jms/serializer-bundle": "^2.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Fnx\\GuzzleBundle\\": "src"
+    },
+    "exclude-from-classmap": [
+      "/Tests/"
+    ]
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "JMS\\SerializerBundle\\Tests\\": "Tests"
+    }
+  }
+}
