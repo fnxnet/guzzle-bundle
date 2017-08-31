@@ -28,6 +28,9 @@ class FnxGuzzleExtension
         $configuration = new Configuration();
         $config        = $this->processConfiguration($configuration, $configs);
 
+        $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
+        $loader->load('services.yml');
+
         if (array_key_exists('default', $config['clients'])) {
             $this->registerClient('default', $config['clients']['default'], $container);
         }
@@ -47,9 +50,6 @@ class FnxGuzzleExtension
         foreach ($config['commands'] as $commandName => $commandConfig) {
             $this->registerCommand($commandName, $commandConfig, $container);
         }
-
-        $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
-        $loader->load('services.yml');
     }
 
     /**
