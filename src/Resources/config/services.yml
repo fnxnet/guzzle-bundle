@@ -1,1 +1,5 @@
 services:
+    fnx_guzzle.command_manager:
+        class: Fnx\GuzzleBundle\Command\CommandManager
+        arguments:
+            - '@service_container'

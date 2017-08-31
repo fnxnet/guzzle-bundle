@@ -23,7 +23,7 @@ class FnxGuzzleExtension
     /**
      * {@inheritdoc}
      */
-    public function load (array $configs, ContainerBuilder $container)
+    public function load(array $configs, ContainerBuilder $container)
     {
         $configuration = new Configuration();
         $config        = $this->processConfiguration($configuration, $configs);
@@ -57,7 +57,7 @@ class FnxGuzzleExtension
      * @param array            $config
      * @param ContainerBuilder $container
      */
-    private function registerCommand (string $name, array $config, ContainerBuilder $container)
+    private function registerCommand(string $name, array $config, ContainerBuilder $container)
     {
         $clientName  = $config['client'];
         $clientId    = self::CLIENT_PREFIX . $clientName;
@@ -86,6 +86,15 @@ class FnxGuzzleExtension
         );
 
         $container->setDefinition($commandName, $definition);
+
+        $commandManager = $container->getDefinition('fnx_guzzle.command_manager');
+        $commandManager->addMethodCall(
+            'add',
+            [
+                $name,
+                $commandName,
+            ]
+        );
     }
 
     /**
@@ -93,7 +102,7 @@ class FnxGuzzleExtension
      * @param array            $clientConfig
      * @param ContainerBuilder $container
      */
-    private function registerClient (string $name, array $clientConfig, ContainerBuilder $container)
+    private function registerClient(string $name, array $clientConfig, ContainerBuilder $container)
     {
         $hasConfig  = array_key_exists('config', $clientConfig) && is_array($clientConfig['config']);
         $config     = $hasConfig ? $clientConfig['config'] : [];
