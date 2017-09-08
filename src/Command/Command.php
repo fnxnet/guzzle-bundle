@@ -3,7 +3,9 @@
 namespace Fnx\GuzzleBundle\Command;
 
 use Fnx\GuzzleBundle\Command\Param\Map;
+use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Psr7\Request;
 use JMS\Serializer\Serializer;
 use Psr\Http\Message\ResponseInterface;
@@ -31,7 +33,7 @@ class Command
      * @param string          $method
      * @param array           $params
      */
-    public function __construct (
+    public function __construct(
         Serializer $jms,
         Configuration $config
     ) {
@@ -42,7 +44,7 @@ class Command
     /**
      * @return ClientInterface
      */
-    public function getClient () : ClientInterface
+    public function getClient() : ClientInterface
     {
         return $this->config->getClient();
     }
@@ -50,7 +52,7 @@ class Command
     /**
      * @return Configuration
      */
-    public function getConfiguration () : Configuration
+    public function getConfiguration() : Configuration
     {
         return $this->config;
     }
@@ -60,7 +62,7 @@ class Command
      *
      * @return Result
      */
-    public function execute (array $data = []) : Result
+    public function execute(array $data = []) : Result
     {
         $config = $this->config;
         $method = $config->getMethod();
@@ -73,7 +75,7 @@ class Command
 
         $map->validateRequiredParams($params);
 
-        $configuration = $config->getDefaults() + $custom + $this->mapParams($map, $params);
+        $configuration = array_merge_recursive($config->getDefaults() + $custom, $this->mapParams($map, $params));
         $uri           = $this->buildUri($uriParams);
 
         $request  = new Request($method, $uri);
@@ -88,7 +90,7 @@ class Command
      *
      * @return mixed
      */
-    private function buildResponse (ResponseInterface $response)
+    private function buildResponse(ResponseInterface $response)
     {
         $config = $this->config;
 
@@ -115,7 +117,7 @@ class Command
      *
      * @return array
      */
-    private function mapParams (Map $map, array $params = []) : array
+    private function mapParams(Map $map, array $params = []) : array
     {
         $result = [];
 
@@ -142,7 +144,7 @@ class Command
      *
      * @return string
      */
-    private function buildUri (array $params = []) : string
+    private function buildUri(array $params = []) : string
     {
         return preg_replace_callback(
             '/{(.*)}/',
@@ -160,7 +162,7 @@ class Command
      *
      * @return string
      */
-    private function mapLocation (string $location) : string
+    private function mapLocation(string $location) : string
     {
         switch ($location) {
             case 'data':
