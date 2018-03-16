@@ -34,5 +34,8 @@
     "psr-4": {
       "JMS\\SerializerBundle\\Tests\\": "Tests"
     }
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^6.4"
   }
 }

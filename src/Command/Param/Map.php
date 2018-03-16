@@ -2,90 +2,122 @@
 
 namespace Fnx\GuzzleBundle\Command\Param;
 
+use phpDocumentor\Reflection\Types\Self_;
+
 /**
  * Class Map
  * @package Fnx\GuzzleBundle\Command\Param
  */
 class Map
-    extends \ArrayObject
 {
     /**
-     * @param array $params
+     * @var MapConfiguration
      */
-    public function validateRequiredParams (array $params)
-    {
-        $diff = array_diff_key($this->getRequiredMaps(), $params);
-
-        if ($diff) {
-            throw new \InvalidArgumentException("Missing required params: " . implode(',', array_keys($diff)));
-        }
-    }
-
+    private $configuration;
     /**
-     * @return array
+     * @var array
      */
-    public function getRequiredMaps ()
+    private $params;
+
+    public function __construct(MapConfiguration $mapConfiguration, array $params = [])
     {
-        return array_filter(
-            $this->getArrayCopy(),
-            function($v) {
-                return isset($v['required']) && $v['required'];
-            }
-        );
+        $this->configuration = $mapConfiguration;
+        $this->params        = $params;
     }
 
-    /**
-     * @param array $data
-     *
-     * @return array
-     */
-    public function extractParams (array $data) : array
+    public function getConfiguration() : MapConfiguration
     {
-        $params = array_filter(
-            $data,
-            function($key) {
-                return $this->offsetExists($key) && $this->offsetGet($key)['location'] !== 'uri';
-            },
-            ARRAY_FILTER_USE_KEY
-        );
-
-        return $params;
+        return $this->configuration;
     }
 
-    /**
-     * @param array $data
-     *
-     * @return array
-     */
-    public function extractUriParams (array $data) : array
+    public function getParams() : array
     {
-        $params = array_filter(
-            $data,
-            function($key) {
-                return $this->offsetExists($key) && $this->offsetGet($key)['location'] === 'uri';
-            },
-            ARRAY_FILTER_USE_KEY
-        );
-
-        return $params;
+        return $this->params;
     }
 
-    /**
-     * @param array $data
-     *
-     * @return array
-     */
-    public function extractCustomVariables (array $data) : array
-    {
-        $custom = array_filter(
-            $data,
-            function($key) {
-                return !$this->offsetExists($key);
-            },
-            ARRAY_FILTER_USE_KEY
-        );
-
-        return $custom;
-    }
+//    /**
+//     * @param array $params
+//     */
+//    public function validateRequiredParams() : bool
+//    {
+//        $diff = array_diff_key($this->getRequiredMaps(), $params);
+//
+//        if ($diff) {
+//            throw new \InvalidArgumentException("Missing required params: " . implode(',', array_keys($diff)));
+//        }
+//
+//        return true;
+//    }
+//
+//    /**
+//     * @return array
+//     */
+//    public function getRequiredMaps() : array
+//    {
+//        return array_filter(
+//            $this->configuration->getArrayCopy(),
+//            function($v) {
+//                return isset($v['required']) && $v['required'];
+//            }
+//        );
+//    }
+//
+//    /**
+//     * @param array $data
+//     *
+//     * @return array
+//     */
+//    public function extractParams(array $data) : array
+//    {
+//        $params = array_filter(
+//            $data,
+//            function($key) {
+//                return $this->configuration->offsetExists($key) && $this->configuration->offsetGet(
+//                        $key
+//                    )['location'] !== 'uri';
+//            },
+//            ARRAY_FILTER_USE_KEY
+//        );
+//
+//        return $params;
+//    }
+//
+//    /**
+//     * @param array $data
+//     *
+//     * @return array
+//     */
+//    public function extractUriParams(array $data) : array
+//    {
+//        $params = array_filter(
+//            $data,
+//            function($key) {
+//                return $this->configuration->offsetExists($key) && $this->configuration->offsetGet(
+//                        $key
+//                    )['location'] === 'uri';
+//            },
+//            ARRAY_FILTER_USE_KEY
+//        );
+//
+//        return $params;
+//    }
+//
+//    /**
+//     * @param array $data
+//     *
+//     * @return array
+//     */
+//    public function extractCustomVariables(array $data) : array
+//    {
+//        $custom = array_filter(
+//            $data,
+//            function($key) {
+//                return !$this->configuration->offsetExists($key);
+//            },
+//            ARRAY_FILTER_USE_KEY
+//        );
+//
+//        return $custom;
+//    }
 
 }

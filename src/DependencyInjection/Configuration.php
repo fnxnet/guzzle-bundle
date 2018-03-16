@@ -60,6 +60,7 @@ class Configuration
                                                     'headers',
                                                     'query',
                                                     'data',
+                                                    'post',
                                                 ]
                                              )
                                              ->isRequired()

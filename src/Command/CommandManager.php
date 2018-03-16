@@ -48,7 +48,7 @@ class CommandManager
             case $command instanceof Command:
                 return $command;
             case is_string($command):
-                $commandName = FnxGuzzleExtension::COMMAND_PREFIX . $name;
+                $commandName = FnxGuzzleExtension::COMMAND_PREFIX . $command;
                 if (!$this->container->has($commandName)) {
                     throw new CommandNotFoundException($name);
                 }

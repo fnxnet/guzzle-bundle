@@ -1,0 +1,132 @@
+fnx_guzzle:
+    clients:
+        auth:
+            base_uri: '%api_host%/api/auth/'
+            config:
+                verify: false
+        schools:
+            base_uri: '%api_host%/api/schools'
+        project:
+            base_uri: '%api_host%/api/project'
+    commands:
+        login.by_form:
+            client: auth
+            uri: auth/login
+            method: POST
+            resultType: "array"
+            defaults:
+                headers: { Accept: '*' }
+            params:
+                email:
+                    location: json
+                    required: true
+                password:
+                    location: json
+                    required: true
+        confirm.account:
+            client: auth
+            uri: auth/confirm
+            method: POST
+            resultType: "array"
+            defaults:
+                headers: { Accept: '*' }
+            params:
+                token:
+                    map: registrationToken
+                    location: json
+                    required: true
+        login.facebook:
+            client: auth
+            uri: auth/facebook
+            method: POST
+            resultType: "array"
+            defaults:
+                headers: { Accept: '*' }
+                json: { clientId: '%fb.appid%', redirectUri: 'redirectUri' }
+            params:
+                code:
+                    location: json
+                    required: true
+        register.v1:
+            client: auth
+            uri: auth/signup
+            method: POST
+            resultType: "array"
+            defaults:
+                headers: {Accept: '*'}
+            params:
+                name:
+                    location: json
+                    required: true
+                surname:
+                    location: json
+                    required: true
+                email:
+                    location: json
+                    required: true
+                password:
+                    location: json
+                    required: true
+                acceptTerms:
+                    map: "accept1"
+                    location: json
+                    required: true
+                acceptPrivacy:
+                    map: "accept2"
+                    location: json
+                    required: true
+                birthday:
+                    location: json
+                    required: true
+                schoolId:
+                    map: "school_id"
+                    location: json
+                    required: true
+        school.add:
+            client: schools
+            method: POST
+            resultType: "array"
+            uri: ''
+            defaults:
+                headers: {Accept: '*'}
+                query: {verified: 1}
+            params:
+                type:
+                    map: level
+                    location: json
+                    required: true
+                name:
+                    location: json
+                    required: true
+                address:
+                    location: json
+                    required: true
+                region:
+                    map: voivodeshipCode
+                    location: json
+                    required: true
+        password.reset:
+             client: auth
+             uri: password/reset
+             method: POST
+             resultType: "array"
+             defaults:
+                 headers: {Accept: '*'}
+             params:
+                 email:
+                     location: json
+                     required: true
+        project.join:
+             client: project
+             uri: ''
+             method: POST
+             resultType: "array"
+             defaults:
+                 headers: { Accept: '*' }
+             params:
+                 userId:
+                     location: json
+                     required: true
+                 projectId:
+                     location: json
+                     required: true
